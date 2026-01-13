@@ -90,8 +90,15 @@ def load_dataset(path1: str, path2: str) -> pd.DataFrame:
         @st.cache_data(show_spinner=False): guarda el df resultante para que cuándo Streamlit re-ejecute el scripts no tenga que volver a 
         leer y procesar los CSV si no se ha producido ningún cambio. 
     '''
-    df1 = pd.read_csv(path1)
-    df2 = pd.read_csv(path2)
+    dtype = {
+    "store_nbr": "int16",
+    "onpromotion": "int16",
+    "cluster": "int16",
+    "sales": "float32",
+    "transactions": "float32",
+}
+    df1 = pd.read_csv(path1,dtype=dtype, low_memory=False)
+    df2 = pd.read_csv(path2,dtype=dtype, low_memory=False)
 
     # Concatenamos todos los datos en un único DataFrame.  
     df = pd.concat([df1, df2], ignore_index=True)
